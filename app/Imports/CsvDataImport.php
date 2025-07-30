@@ -4,9 +4,11 @@ namespace App\Imports;
 
 use App\Models\CsvData;
 use Maatwebsite\Excel\Concerns\ToModel;
+use Maatwebsite\Excel\Concerns\WithBatchInserts;
+use Maatwebsite\Excel\Concerns\WithChunkReading;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 
-class CsvDataImport implements ToModel, WithHeadingRow
+class CsvDataImport implements ToModel, WithHeadingRow, WithBatchInserts, WithChunkReading
 {
     /**
     * @param array $row
@@ -22,5 +24,15 @@ class CsvDataImport implements ToModel, WithHeadingRow
             
         ]);
     }
+
+    public function batchSize(): int
+        {
+            return 5000;
+        }
+
+        public function chunkSize(): int
+        {
+            return 5000;
+        }
     
 }
